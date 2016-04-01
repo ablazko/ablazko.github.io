@@ -1,0 +1,42 @@
+# General Jekyll Config
+url: http://ablazko.github.io
+exclude: [LICENSE, CNAME, README.md, .gitignore]
+safe: true
+lsi: false
+#pygments: false
+markdown: redcarpet
+redcarpet:
+  extensions: ["no_intra_emphasis", "fenced_code_blocks", "autolink", "tables", "with_toc_data"]
+
+# Theme customization
+theme:
+  # Color for top bar, links, etc
+  highlight_color: '#3498db'
+
+  # Profile links on the left sidebar, leave blank to ignore
+  social:
+    github: ablazko
+    twitter: ablazko
+    facebook: 
+    linkedin: andreblazko
+  author:
+    gplus: "+aBlazko"
+  # Personal information
+  name: Andre Blazko
+  email: andre.blazko@gmail.com
+  tagline: "an enthusiast for data science"
+
+  # Google Analytics key, leave blank to ignore
+  google_analytics_key: UA-75826037-1
+
+  # Toggle "Postings are my own" disclaimer in footer
+  show_disclaimer: true
+
+  # MathJax support
+  mathjax: true
+
+  # Disqus site-id
+  disqus: ablazko
+
+  # highlight.js
+  highlightjs: googlecode
