@@ -17,12 +17,12 @@ Basically, the most of the work (so far!) was all about munging the data and cle
 
 Here it is a screen shot of this ranking...
 
-![ranking-screenshot](/Users/andre_blazko/Documents/github/ablazko.github.io-posts-images/2016-04-24-futsalmania-app-img1.png)
+![ranking-screenshot](/Users/andre_blazko/Documents/github/ablazko-posts-images/2016-04-24-futsalmania-app-img1.png)
 
 My second goal was to analyse the duel between two teams, the most important statistics involving them (the duel) and also their history in the competition. And this is the result...
 
 
-![ranking-screenshot](/Users/andre_blazko/Documents/github/ablazko.github.io-posts-images/2016-04-24-futsalmania-app-img2.png)
+![ranking-screenshot](/Users/andre_blazko/Documents/github/ablazko-posts-images/2016-04-24-futsalmania-app-img2.png)
 
 And now, once the app are fully running I can play around with all the data available. Share some analysis with my friends and just have fun about it!
 
