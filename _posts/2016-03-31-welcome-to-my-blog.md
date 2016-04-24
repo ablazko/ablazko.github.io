@@ -1,8 +1,11 @@
-<!-----
+---
 layout: post
 title: Welcome to my blog!
 categories: blog
------>
+tags: [ ]
+date: 2016-03-31 00:00:00 -0300
+highlight: [ r ]
+---
 
 After a hard day of work I was finally able to create my blog website. I'm really excited to start writing and sharing about my researches, R codes and strategies to tackle this interesting subject area which is data science and predictive modeling.
 
