@@ -1,5 +1,6 @@
 <!-----
 layout: post
+date: 2016-04-24 00:00:00 -0300
 title: The 'Futsal Mania' app!
 categories: blog, r, shiny, futsal
 ----->
@@ -22,7 +23,7 @@ Here it is a screen shot of this ranking...
 My second goal was to analyse the duel between two teams, the most important statistics involving them (the duel) and also their history in the competition. And this is the result...
 
 
-![ranking-screenshot](/Users/andre_blazko/Documents/github/ablazko-posts-images/2016-04-24-futsalmania-app-img2.png)
+![duel-screenshot](/Users/andre_blazko/Documents/github/ablazko-posts-images/2016-04-24-futsalmania-app-img2.png)
 
 And now, once the app are fully running I can play around with all the data available. Share some analysis with my friends and just have fun about it!
 
