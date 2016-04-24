@@ -1,9 +1,11 @@
-<!-----
+---
 layout: post
-date: 2016-04-24 00:00:00 -0300
 title: The 'Futsal Mania' app!
-categories: blog, r, shiny, futsal
------>
+categories: blog
+tags: [ r, shiny, futsal ]
+date: 2016-04-24 00:00:00 -0300
+highlight: [ r ]
+---
 
 Right after I've set up my (this) new blog I started to handle some data regarding futsal sport. It was for fun in the beginning, and my curiosity about the team's performance along the national competitions was getting higher and higher. About a two weeks ago started the LNF 2016 season here in Brazil. And for some reason I wanted to get this app running on live right away. And so I focus to accomplish that! And I did it! 😃 [ you can check it out the app here  <a href="https://sapp.shinyapps.io/futsalmania" target="_blank">FUTSAL MANIA</a> ]
 
