@@ -29,7 +29,7 @@ My second goal was to analyse the duel between two teams, the most important sta
 
 <img src="/posts-img/2016-04-24-futsalmania-app-img2.png" alt="duel-screenshot" width="630" heigth="480">
 
-And now, once the app are fully running I can play around with all the data available. Share some analysis with my friends and just have fun about it!
+And now, once the app are fully running I can play around with all the data available, share some analysis with my friends and just have fun about it!
 
 You can play around with this app in <a href="https://sapp.shinyapps.io/futsalmania" target="_blank">FUTSAL MANIA</a>. I intend to keep it updated regarding the new games from now on. And also want to implement some new features and analysis.
 
