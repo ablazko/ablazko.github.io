@@ -23,12 +23,11 @@ Basically, the most of the work (so far!) was all about munging the data and cle
 
 Here it is a screen shot of this ranking...
 
-![ranking-screenshot](/posts-img/2016-04-24-futsalmania-app-img1.png)
+<img src="/posts-img/2016-04-24-futsalmania-app-img1.png" width="630" heigth="480">
 
 My second goal was to analyse the duel between two teams, the most important statistics involving them (the duel) and also their history in the competition. And this is the result...
 
-
-![duel-screenshot](/posts-img/2016-04-24-futsalmania-app-img2.png)
+<img src="/posts-img/2016-04-24-futsalmania-app-img2.png" alt="duel-screenshot" width="630" heigth="480">
 
 And now, once the app are fully running I can play around with all the data available. Share some analysis with my friends and just have fun about it!
 
