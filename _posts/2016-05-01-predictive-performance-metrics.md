@@ -15,7 +15,7 @@ Before we start getting into more technical, I would like also to point that the
 
 This is a R function I wrote to make my life easier during the work, with the code to calculate each metric. Hope it can help you too.
 
-```
+```r
 # Goodness of Fit Metrics (for prediction models with target [0;1])
 
 funcGFMmetrics = 
@@ -130,18 +130,24 @@ I'd rather this way since not all of my projects (or approaches) considers a 50/
 
 This is an example of a function call with the results saved in `metrics` object:
 
-    metrics = funcGFMmetrics (var.target="target", var.prediction="prob", var.df="df")
+```r
+metrics = funcGFMmetrics (var.target="target", var.prediction="prob", var.df="df")    
+```
 
 A usually set the paramenters input of my function as a *text*, so it is easy to automate the call of a function in some procedures. As a result of the above line code you get a vector listing all of performance metrics:
 
-        AUC        KS      GINI   LogLoss     Kappa        F1  Accuracy ErrorRate Precision    Recall 
-    0.80267   0.44472   0.60534   0.73523   0.36063   0.79377   0.71722   0.28278   0.89089   0.71575
+```r
+    AUC        KS      GINI   LogLoss     Kappa        F1  Accuracy ErrorRate Precision    Recall 
+0.80267   0.44472   0.60534   0.73523   0.36063   0.79377   0.71722   0.28278   0.89089   0.71575
+```
 
 So `metrics` become an object in R session, and if needed you can extract a specific metric just passing its index. To call `KS` value, you do:
 
-    > metrics[2]
-         KS 
-    0.44472
+```r
+> metrics[2]
+     KS 
+0.44472
+```
 
 I'm supposing you're familiar with the definition of such metrics, so this is just a little hint of the meaning of these measures:
 
