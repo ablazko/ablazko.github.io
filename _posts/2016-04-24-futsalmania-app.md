@@ -9,7 +9,7 @@ highlight: [ r ]
 
 Right after I've set up my (this) new blog I started to handle some data regarding futsal sport. It was for fun in the beginning, and my curiosity about the team's performance along the national competitions was getting higher and higher. About a two weeks ago started the LNF 2016 season here in Brazil. And for some reason I wanted to get this app running on live right away. And so I focus to accomplish that! And I did it! :-)
 
-[ you can check it out the app here  <a href="https://sapp.shinyapps.io/futsalmania" target="_blank">FUTSAL MANIA</a> ]
+[ you can check it out the app here  <a href="http://ablazko.github.io/futsalmania" target="_blank">FUTSAL MANIA</a> ]
 
 The hard time was to figure it out the 'right' names for the teams, since it is quite usual in this competition to have compound names because their new sponsors. For example, in 2014/2015 seasons the team of Sorocaba was also called as Brasil Kirin. This 2016 season they have a new sponsor and now they are being called as Magnus Futsal. Yes, I know! :/  This is really terrible for gathering data... but still is not impossible do arrange that! And as older the seasons, more problems with their names.
 
@@ -31,7 +31,7 @@ My second goal was to analyse the duel between two teams, the most important sta
 
 And now, once the app are fully running I can play around with all the data available, share some analysis with my friends and just have fun about it!
 
-You can play around with this app in <a href="https://sapp.shinyapps.io/futsalmania" target="_blank">FUTSAL MANIA</a>. I intend to keep it updated regarding the new games from now on. And also want to implement some new features and analysis.
+You can play around with this app in <a href="http://ablazko.github.io/futsalmania" target="_blank">FUTSAL MANIA</a>. I intend to keep it updated regarding the new games from now on. And also want to implement some new features and analysis.
 
 To write this app I used the following packages in server side:
 
