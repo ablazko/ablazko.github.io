@@ -6,4 +6,8 @@ http://ablazko.github.io/
 http://ablazko.github.io/site.json
 http://ablazko.github.io/sitemap.txt
 
+http://ablazko.github.io/blog/2016/05/17/ks.html
+http://ablazko.github.io/blog/2016/05/08/roc-curve.html
+http://ablazko.github.io/blog/2016/05/01/predictive-performance-metrics.html
+http://ablazko.github.io/blog/2016/04/24/futsalmania-app.html
 http://ablazko.github.io/blog/2016/03/31/welcome-to-my-blog.html

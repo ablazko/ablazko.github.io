@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"><![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"><![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"><![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Andre Blazko - Predictive Performance Metrics</title>
+  <meta name="author" content="Andre Blazko" />
+  <meta name="description" content="The blog of Andre Blazko" />
+  <link rel="canonical" href="http://ablazko.github.io/blog/2016/05/01/predictive-performance-metrics.html" />
+  <link rel="shortcut icon" href="/favicon.png">
+  <link rel="alternate" type="application/rss+xml" title="Andre Blazko" href="http://ablazko.github.io/atom.xml" />
+  <link rel="stylesheet" href="/assets/css/all.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
+  
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/googlecode.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/languages/r.min.js"></script>
+
+<script>
+hljs.configure({languages: []})
+hljs.initHighlightingOnLoad();
+</script>
+
+
+</head>
+<body>
+  <div class="container">
+    <div class="four columns sidebar">
+      <nav>
+  <a href="/">
+    <img src="/logo.png" id="logo" alt="Blog logo"/>
+  </a>
+  <h2>I'm <a href="/">Andre Blazko</a></h2>
+  <hr/>
+  <div>
+  <p>I'm a statistician, R addicted, data science enthusiast and passionate about music and futsal!
+  <br><br> This blog is about tackling the challenges of data science analysis and predictive modeling, R programming and R/Shiny apps.
+  </p>
+  <hr/>
+  <div>
+    <div id="social">
+      <div id="stalker">
+  
+  <a title="ablazko on Github" href="https://github.com/ablazko" target="_blank">
+    <i class="fa fa-github-square"></i>
+  </a>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <a title="ablazko on Twitter" href="https://twitter.com/ablazko" target="_blank">
+    <i class="fa fa-twitter-square"></i>
+  </a>
+  
+
+  
+
+  
+
+  
+  <a title="Andre Blazko on LinkedIn" href="https://br.linkedin.com/in/andreblazko" target="_blank">
+    <i class="fa fa-linkedin-square"></i>
+  </a>
+  
+
+  
+
+  <a title="RSS feed" id="rss" href="/atom.xml" target="_blank">
+    <i class="fa fa-rss-square"></i>
+  </a>
+</div>
+
+    </div>
+  </div>
+  <hr/>
+  <div>
+    <p>The blog posts are shared to <a href="https://r-bloggers.com/" target="_blank">R-bloggers</a>.</p>
+  </div>
+  </div>
+</nav>
+
+    </div>
+    <div class="eleven columns content">
+      <p class="meta">
+  May 01, 2016
+  <a href="/">
+    <i class="home fa fa-home"></i>
+  </a>
+</p>
+
+<h1 class="title">Predictive Performance Metrics</h1>
+
+<div id="post">
+  <p>In this posting I’ll discuss a litle bit about some of the predictive performance metrics available. And be aware that for now I’ll be focused in the particular context of <strong>predictive modeling</strong> for <strong>binary target</strong>.</p>
+
+<p>When working with data modeling you must have a set of metrics in mind to help you decide if the model is performing well and which model is the “winner”. Also, you must be aware about avoid overfiting. These performance metrics will guide you by giving you evidences if you’re in the right path or not. If you’re done with the modelling process or if you must continue digging and trying.</p>
+
+<p>Before we start getting into more technical, I would like also to point that the choice of the metrics (or metrics!) to use sometimes depends of the context of your goals. Each performance metrics “focus” on (and measure) some particular charactheristic of the data. So you’ll find out that your “winner model” could be different ones depending on which metric you want to use.</p>
+
+<p>The R function I wrote to make my life easier during the work can be found <a href="https://github.com/ablazko/R-codes/blob/master/funcGFMmetrics.R" target="_blank">here</a>, with the code to calculate each metric. Hope it can help you too.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c1"># Goodness of Fit Metrics (for prediction models with target [0;1])
+</span>
+<span class="n">funcGFMmetrics</span> <span class="o">=</span> 
+<span class="k">function</span> <span class="p">(</span><span class="n">var.target</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">var.prediction</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">var.df</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">...</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>One important thing to mention is that for the metrics that requires a <code class="highlighter-rouge">predicted</code> flag for each row (usuall used as <code class="highlighter-rouge">score&gt;0.5</code>), this function set the <code class="highlighter-rouge">predicted=1</code> flag for rows that satisfy <code class="highlighter-rouge">score&gt;mean(score)</code>, otherwise <code class="highlighter-rouge">predicted=0</code>.</p>
+
+<p>I’d rather this way since not all of my projects (or approaches) considers a 50/50 balanced response rates.</p>
+
+<p>This is an example of a function call with the results saved in <code class="highlighter-rouge">metrics</code> object:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">metrics</span> <span class="o">=</span> <span class="n">funcGFMmetrics</span> <span class="p">(</span><span class="n">var.target</span><span class="o">=</span><span class="s2">"target"</span><span class="p">,</span> <span class="n">var.prediction</span><span class="o">=</span><span class="s2">"prob"</span><span class="p">,</span> <span class="n">var.df</span><span class="o">=</span><span class="s2">"df"</span><span class="p">)</span>    
+</code></pre>
+</div>
+
+<p>A usually set the paramenters input of my function as a <em>text</em>, so it is easy to automate the call of a function in some procedures. As a result of the above line of code you get a vector listing all of performance metrics:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="o">&gt;</span> <span class="n">metrics</span>
+    <span class="n">AUC</span>        <span class="n">KS</span>      <span class="n">GINI</span>   <span class="n">LogLoss</span>     <span class="n">Kappa</span>        <span class="n">F1</span>  <span class="n">Accuracy</span> <span class="n">ErrorRate</span> <span class="n">Precision</span>    <span class="n">Recall</span> 
+<span class="m">0.80267</span>   <span class="m">0.44472</span>   <span class="m">0.60534</span>   <span class="m">0.73523</span>   <span class="m">0.36063</span>   <span class="m">0.79377</span>   <span class="m">0.71722</span>   <span class="m">0.28278</span>   <span class="m">0.89089</span>   <span class="m">0.71575</span>
+</code></pre>
+</div>
+
+<p>So <code class="highlighter-rouge">metrics</code> become an object in R session, and if needed you can extract a specific metric just passing its index. To call <code class="highlighter-rouge">KS</code> value, you do:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="o">&gt;</span> <span class="n">metrics</span><span class="p">[</span><span class="m">2</span><span class="p">]</span>
+     <span class="n">KS</span> 
+<span class="m">0.44472</span>
+</code></pre>
+</div>
+
+<p>I’m supposing you’re familiar with the definition of such metrics, so this is just a little hint of the meaning of these measures:</p>
+
+<ul>
+  <li>AUC        = total area under the ROC Curve</li>
+  <li>KS         = maximum distance between cumulative distributions frequencies of the target and no-target</li>
+  <li>GINI       = measure the inequality level among values of the frequency distribution between target and no-target</li>
+  <li>Logloss    = uncertainty of the probabilities of the model by comparing them to the true labels</li>
+  <li>Kappa      = agreement level between prediction and true labels</li>
+  <li>F1         = harmonic mean between Precision and Recall measures</li>
+  <li>Accuracy   = overall accuracy of the model considering target and no-target predictions</li>
+  <li>Error Rate = overall error of the model considering target and no-target predictions</li>
+  <li>Precision  = ‘predicted’ hit rate</li>
+  <li>Recall     = ‘true’ hit rate</li>
+</ul>
+
+<p>That’s all folks! ;-)
+<br /><br /></p>
+
+</div>
+
+<div id="related">
+  <h3>Related Posts</h3>
+  <ul class="posts">
+    
+    <li>
+      <span>17 May 2016 &raquo;</span> <a href="/blog/2016/05/17/ks.html">KS Curve plot</a>
+    </li>
+    
+    <li>
+      <span>08 May 2016 &raquo;</span> <a href="/blog/2016/05/08/roc-curve.html">ROC Curve plot and AUC</a>
+    </li>
+    
+    <li>
+      <span>24 Apr 2016 &raquo;</span> <a href="/blog/2016/04/24/futsalmania-app.html">The 'Futsal Mania' app!</a>
+    </li>
+    
+  </ul>
+</div>
+
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'ablazko';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$']],
+        processEscapes: true
+      }
+    });
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+      <div class="footer">
+        <div class="disclaimer">
+  
+  <p>
+    
+    All articles are authored and published by Andre Blazko.
+    
+    The contents on this site are licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/deed.en_US">Creative Commons Attribution-NonCommercial 4.0 International License</a>.
+  </p>
+  
+
+  <p>
+    © <a href="mailto:andre.blazko@gmail.com">Andre Blazko</a>, 2016 &mdash; hosted by <a href="http://pages.github.com/">GitHub Pages</a> and built with <a href="http://jekyllrb.com/">Jekyll</a> using <a href="http://jekyllthemes.org/themes/lagom/">Lagom theme</a>.
+  </p>
+</div>
+
+      </div>
+    </div>
+  </div>
+
+<script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-75826037-1']);
+_gaq.push(['_trackPageview']);
+(function() {
+var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+
+ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+</body>
+</html>

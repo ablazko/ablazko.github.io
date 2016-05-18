@@ -6,10 +6,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Andre Blazko - Welcome to my blog!</title>
+  <title>Andre Blazko - The 'Futsal Mania' app!</title>
   <meta name="author" content="Andre Blazko" />
   <meta name="description" content="The blog of Andre Blazko" />
-  <link rel="canonical" href="http://ablazko.github.io/blog/2016/03/31/welcome-to-my-blog.html" />
+  <link rel="canonical" href="http://ablazko.github.io/blog/2016/04/24/futsalmania-app.html" />
   <link rel="shortcut icon" href="/favicon.png">
   <link rel="alternate" type="application/rss+xml" title="Andre Blazko" href="http://ablazko.github.io/atom.xml" />
   <link rel="stylesheet" href="/assets/css/all.css">
@@ -93,26 +93,64 @@ hljs.initHighlightingOnLoad();
     </div>
     <div class="eleven columns content">
       <p class="meta">
-  March 31, 2016
+  April 24, 2016
   <a href="/">
     <i class="home fa fa-home"></i>
   </a>
 </p>
 
-<h1 class="title">Welcome to my blog!</h1>
+<h1 class="title">The 'Futsal Mania' app!</h1>
 
 <div id="post">
-  <p>After a hard day of work I was finally able to create my blog website. I’m really excited to start writing and sharing about my researches, R codes and strategies to tackle this interesting subject area which is data science and predictive modeling.</p>
+  <p>Right after I’ve set up my (this) new blog I started to handle some data regarding futsal sport. It was for fun in the beginning, and my curiosity about the team’s performance along the national competitions was getting higher and higher. About a two weeks ago started the LNF 2016 season here in Brazil. And for some reason I wanted to get this app running on live right away. And so I focus to accomplish that! And I did it! :-)</p>
 
-<p>I’m also glad that <a href="http://pages.github.com" target="_blank">GitHub Pages</a> allow us to create such things all for free!</p>
+<p>[ you can check it out the app here  <a href="http://ablazko.github.io/futsalmania" target="_blank">FUTSAL MANIA</a> ]</p>
 
-<p>The contents of my postings will be a balance between theory and application. I will also try to share R codes to accomplish some goals and help us in this journey.</p>
+<p>The hard time was to figure it out the ‘right’ names for the teams, since it is quite usual in this competition to have compound names because their new sponsors. For example, in 2014/2015 seasons the team of Sorocaba was also called as Brasil Kirin. This 2016 season they have a new sponsor and now they are being called as Magnus Futsal. Yes, I know! :/  This is really terrible for gathering data… but still is not impossible do arrange that! And as older the seasons, more problems with their names.</p>
 
-<p>Some postings might also be related to subjects and contexts still under investigation, so there will be times that you’ll find more questions than answers. Hopefully, by sharing these discussions the community can help us to find the best answers. Or at least the reasonable paths and strategies to address such issues.</p>
+<p>In general, I tried to keep the most known name of them. For the example above, the oficial name I set for the team of Sorocaba city was ‘Sorocaba’, regardless of their sponsors at that time.</p>
 
-<p>I hope this blog can help you to improve your skills related to data science. And I hope also improve my own skills when we start exchanging ideas and knowledge through discussions in each posting.</p>
+<p>Unfortunately, I was only able to find data regarding the games since LNF 2010. Before that, I still didn’t find any reliable source. Still diggind the web for that… not even LNF oficial association could help me on that. They indeed have all the data, but still the most part of them are not digital yet, so. They told me they have a project running to change that, but it is going to take time. Let’s wait then.</p>
 
-<p>Anyway, welcome to my blog! ;-)</p>
+<p>But let’s start talking about the interesting part… the data and how R/Shiny could help me turn my ideas in reality! :D</p>
+
+<p>Basically, the most of the work (so far!) was all about munging the data and cleaning it. I focused to create a <code class="highlighter-rouge">score</code> to measure the perfomance of the teams at each season and then combine them to get an overall (actual) <code class="highlighter-rouge">score</code>. My first goal was to have <strong>the first ranking of the LNF’s teams in Brazil</strong>, considering all their history and performance results in these competitions.</p>
+
+<p>Here it is a screen shot of this ranking…</p>
+
+<p><img src="/posts-img/2016-04-24-futsalmania-app-img1.png" width="630" heigth="480" /></p>
+
+<p>My second goal was to analyse the duel between two teams, the most important statistics involving them (the duel) and also their history in the competition. And this is the result…</p>
+
+<p><img src="/posts-img/2016-04-24-futsalmania-app-img2.png" alt="duel-screenshot" width="630" heigth="480" /></p>
+
+<p>And now, once the app are fully running I can play around with all the data available, share some analysis with my friends and just have fun about it!</p>
+
+<p>You can play around with this app in <a href="http://ablazko.github.io/futsalmania" target="_blank">FUTSAL MANIA</a>. I intend to keep it updated regarding the new games from now on. And also want to implement some new features and analysis.</p>
+
+<p>To write this app I used the following packages in server side:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>library(gridExtra)  # graphics
+library(ggplot2)    # graphics
+library(grid)       # some functions used in ggplot
+library(rdrop2)     # dropbox integration
+library(DT)         # data table presentation in shiny
+library(data.table) # data manipulation
+</code></pre>
+</div>
+
+<p>And in ui side:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>library(shiny)
+library(shinydashboard)
+library(shinyjs)
+</code></pre>
+</div>
+
+<p>My strategy to keep the data updated (periodically) was by dropbox integration. The <code class="highlighter-rouge">rdrop2</code> library is pretty handy to deal that. The <code class="highlighter-rouge">data.table</code> library made a lot of difference too. Their performance for data manipulation is very higher if compared to R basis. Well, that’s true ins most of the cases! During this work I found an interesting issue with <code class="highlighter-rouge">data.table</code> when you have to use <code class="highlighter-rouge">cbind</code> function. Actually, its performance for this is surprisingly worse the R basis! So if you need to <code class="highlighter-rouge">cbind</code> columns I advice you to turn your data frame to <code class="highlighter-rouge">data.frame</code> format first, then <code class="highlighter-rouge">cbind</code> your column(s), and then back to <code class="highlighter-rouge">data.table</code> format. It’s quite annoying, but is worth it. This is probably an issue that I hope to be handled in next versions of <code class="highlighter-rouge">data.table</code> package.</p>
+
+<p>That’s all folks! ;-)
+<br /><br /></p>
 
 </div>
 

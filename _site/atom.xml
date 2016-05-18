@@ -4,7 +4,7 @@
  <title>The blog of Andre Blazko</title>
  <link href="http://ablazko.github.io/atom.xml" rel="self"/>
  <link href="http://ablazko.github.io"/>
- <updated>2016-04-01T09:10:00-03:00</updated>
+ <updated>2016-05-17T22:31:59-03:00</updated>
  <id>http://ablazko.github.io</id>
  <author>
    <name>Andre Blazko</name>
@@ -13,13 +13,295 @@
 
  
  <entry>
+   <title>KS Curve plot</title>
+   <link href="http://ablazko.github.io/blog/2016/05/17/ks.html"/>
+   <updated>2016-05-17T00:00:00-03:00</updated>
+   <id>http://ablazko.github.io/blog/2016/05/17/ks</id>
+   <content type="html">&lt;p&gt;Today I’ll present a simple R function to create a plot for the metric &lt;code class=&quot;highlighter-rouge&quot;&gt;KS&lt;/code&gt;. I’m assuming that you are familiar with this metric and your usage.&lt;/p&gt;
+
+&lt;p&gt;As I told in the previous post &lt;a href=&quot;http://ablazko.github.io/blog/2016/05/08/roc-curve.html&quot; target=&quot;_blank&quot;&gt;ROC Curve plot and AUC&lt;/a&gt; I always recommend to also check the plot of some metrics, instead of only being satisfied by the value of the metric. This will help you to make sure that your model’s predictions are ok along the whole range of probabilities.&lt;/p&gt;
+
+&lt;p&gt;Again, remember that we are considering the scenario of a binary classifier.&lt;/p&gt;
+
+&lt;p&gt;The R function I wrote to evaluate the KS Curve can be found &lt;a href=&quot;https://github.com/ablazko/R-codes/blob/master/funcGFMplotKS.R&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt;. Unlike the &lt;a href=&quot;https://github.com/ablazko/R-codes/blob/master/funcGFMplotROC.R&quot; target=&quot;_blank&quot;&gt;ROC Curve function&lt;/a&gt;, this one cannot be used to do comparisons among groups in the same plot. I recommend you to create a plot for each one of the groups. In the following example, we’ll do that for the &lt;code class=&quot;highlighter-rouge&quot;&gt;train&lt;/code&gt; and a &lt;code class=&quot;highlighter-rouge&quot;&gt;valid&lt;/code&gt; subsets of data.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# Goodness of Fit Metrics &#39;KS plot&#39; (for prediction models with target [0;1])
+&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;funcGFMplotKS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 
+&lt;span class=&quot;k&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;var.target&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var.prediction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var.df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var.fsize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;...&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;So let’s get practical and see how it works!&lt;/p&gt;
+
+&lt;p&gt;This is an example of a function call. In this case, all the records in the &lt;code class=&quot;highlighter-rouge&quot;&gt;tmp_train&lt;/code&gt; data frame is regarding the &lt;code class=&quot;highlighter-rouge&quot;&gt;train&lt;/code&gt; subset.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;unique&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tmp_train&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Scenario&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Train&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;var.fsize&lt;/code&gt; parameter is the reference for the text font size used in ggplot2. Default value is set to &lt;code class=&quot;highlighter-rouge&quot;&gt;3&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;funcGFMplotKS&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;var.target&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;target&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var.prediction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;pred&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var.df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;tmp_train&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var.fsize&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This is the result:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/posts-img/2016-05-17-ks-curve-img1.png&quot; width=&quot;630&quot; heigth=&quot;480&quot; /&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;The black dashed line (&lt;strong&gt;- - -&lt;/strong&gt;) identifies the exact point where the curves reach the maximum distance from each other. This is the known &lt;code class=&quot;highlighter-rouge&quot;&gt;KS value&lt;/code&gt;. If you’re curious about how the calculation is done you can check it directly in the R code available &lt;a href=&quot;https://github.com/ablazko/R-codes/blob/master/funcGFMplotKS.R&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Now, this is the result if we call the same function to the &lt;code class=&quot;highlighter-rouge&quot;&gt;valid&lt;/code&gt; data frame:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;unique&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tmp_valid&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Scenario&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Valid&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;funcGFMplotKS&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;var.target&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;target&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var.prediction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;pred&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var.df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;tmp_valid&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var.fsize&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;br /&gt;
+&lt;img src=&quot;/posts-img/2016-05-17-ks-curve-img2.png&quot; width=&quot;630&quot; heigth=&quot;480&quot; /&gt;
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Note that the chart title shows different values of the &lt;code class=&quot;highlighter-rouge&quot;&gt;KS&lt;/code&gt;. And these values match exactly the same values calculated by the &lt;a href=&quot;https://github.com/ablazko/R-codes/blob/master/funcGFMmetrics.R&quot; target=&quot;_blank&quot;&gt;funcGFMmetrics&lt;/a&gt; function, presented in an earlier &lt;a href=&quot;http://ablazko.github.io/blog/2016/05/01/predictive-performance-metrics.html&quot; target=&quot;_blank&quot;&gt;posting&lt;/a&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# TRAIN data frame
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;metrics&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;funcGFMmetrics&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;var.target&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;target&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var.prediction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;pred&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var.df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;tmp_train&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;    
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;metrics&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;AUC&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;KS&lt;/span&gt;      &lt;span class=&quot;n&quot;&gt;GINI&lt;/span&gt;   &lt;span class=&quot;n&quot;&gt;LogLoss&lt;/span&gt;     &lt;span class=&quot;n&quot;&gt;Kappa&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;F1&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;Accuracy&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ErrorRate&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Precision&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;Recall&lt;/span&gt; 
+&lt;span class=&quot;m&quot;&gt;0.82913&lt;/span&gt;   &lt;span class=&quot;m&quot;&gt;0.48114&lt;/span&gt;   &lt;span class=&quot;m&quot;&gt;0.65826&lt;/span&gt;   &lt;span class=&quot;m&quot;&gt;0.77364&lt;/span&gt;   &lt;span class=&quot;m&quot;&gt;0.40113&lt;/span&gt;   &lt;span class=&quot;m&quot;&gt;0.81346&lt;/span&gt;   &lt;span class=&quot;m&quot;&gt;0.74074&lt;/span&gt;   &lt;span class=&quot;m&quot;&gt;0.25926&lt;/span&gt;   &lt;span class=&quot;m&quot;&gt;0.89988&lt;/span&gt;   &lt;span class=&quot;m&quot;&gt;0.74219&lt;/span&gt;
+
+
+&lt;span class=&quot;c1&quot;&gt;# VALID data frame
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;metrics&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;funcGFMmetrics&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;var.target&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;target&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var.prediction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;pred&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var.df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;tmp_valid&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;    
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;metrics&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;AUC&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;KS&lt;/span&gt;      &lt;span class=&quot;n&quot;&gt;GINI&lt;/span&gt;   &lt;span class=&quot;n&quot;&gt;LogLoss&lt;/span&gt;     &lt;span class=&quot;n&quot;&gt;Kappa&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;F1&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;Accuracy&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ErrorRate&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Precision&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;Recall&lt;/span&gt; 
+&lt;span class=&quot;m&quot;&gt;0.82547&lt;/span&gt;   &lt;span class=&quot;m&quot;&gt;0.47744&lt;/span&gt;   &lt;span class=&quot;m&quot;&gt;0.65095&lt;/span&gt;   &lt;span class=&quot;m&quot;&gt;0.76664&lt;/span&gt;   &lt;span class=&quot;m&quot;&gt;0.39905&lt;/span&gt;   &lt;span class=&quot;m&quot;&gt;0.81350&lt;/span&gt;   &lt;span class=&quot;m&quot;&gt;0.74053&lt;/span&gt;   &lt;span class=&quot;m&quot;&gt;0.25947&lt;/span&gt;   &lt;span class=&quot;m&quot;&gt;0.89661&lt;/span&gt;   &lt;span class=&quot;m&quot;&gt;0.74450&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This can be quite handy &lt;sup id=&quot;fnref:note&quot;&gt;&lt;a href=&quot;#fn:note&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;, specially if you usually write (and automate) reports documenting your development and evaluation model processes, or even if you have some R code procedures running periodically to follow up the model performance that are delivered to your clients.&lt;/p&gt;
+
+&lt;p&gt;That’s all folks! ;-)&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:note&quot;&gt;
+      &lt;p&gt;To make sure all your outputs are exactly the same. &lt;a href=&quot;#fnref:note&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>ROC Curve plot and AUC</title>
+   <link href="http://ablazko.github.io/blog/2016/05/08/roc-curve.html"/>
+   <updated>2016-05-08T00:00:00-03:00</updated>
+   <id>http://ablazko.github.io/blog/2016/05/08/roc-curve</id>
+   <content type="html">&lt;p&gt;In the previous post &lt;a href=&quot;http://ablazko.github.io/blog/2016/05/01/predictive-performance-metrics.html&quot; target=&quot;_blank&quot;&gt;Predictive Performance Metrics&lt;/a&gt; I wrote about a R function that returns a few performance metrics useful to evaluate a binary classifier. And this can be enough in some situations and for some of these metrics.&lt;/p&gt;
+
+&lt;p&gt;In the case of the ROC Curve I like to always observe the shape of its plot just to make sure everything is fine, since different shapes of the curve can result the same AUC value. Other plots that I usually observe are the KS, density and percentile plots. But for now, let’s focus in the ROC Curve.&lt;/p&gt;
+
+&lt;p&gt;The R function I wrote to evaluate the ROC Curve can be found &lt;a href=&quot;https://github.com/ablazko/R-codes/blob/master/funcGFMplotROC.R&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt;. It can handle a single curve or multiples curves in the same plot. This make it easy when you need to compare the results among &lt;code class=&quot;highlighter-rouge&quot;&gt;train&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;valid&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;test&lt;/code&gt; data or even among different models. To do that, just keep in mind that instead of having different columns for each prediction, you must have a unique column for your prediction, and a column to diferentiate these groups (&lt;code class=&quot;highlighter-rouge&quot;&gt;var.group&lt;/code&gt; input).&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# Goodness of Fit Metrics &#39;ROC plot&#39; (for prediction models with target [0;1])
+&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;funcGFMplotROC&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 
+&lt;span class=&quot;k&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;var.target&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var.prediction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var.group&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var.df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var.fsize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;...&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;So let’s get practical and see how it works!&lt;/p&gt;
+
+&lt;p&gt;This is an example of a function call. In this case, all the records in the &lt;code class=&quot;highlighter-rouge&quot;&gt;tmp_train&lt;/code&gt; data frame is regarding the &lt;code class=&quot;highlighter-rouge&quot;&gt;train&lt;/code&gt; subset.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;unique&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tmp_train&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Scenario&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Train&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;var.fsize&lt;/code&gt; parameter is the reference for the text font size used in ggplot2. Default value is set to &lt;code class=&quot;highlighter-rouge&quot;&gt;3&lt;/code&gt;. Also the &lt;code class=&quot;highlighter-rouge&quot;&gt;var.group&lt;/code&gt; parameter is optional and the default value is &lt;code class=&quot;highlighter-rouge&quot;&gt;null&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;funcGFMplotROC&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;var.target&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;target&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var.prediction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;pred&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var.group&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Scenario&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var.df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;tmp_train&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var.fsize&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This is the result:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/posts-img/2016-05-08-roc-curve-img1.png&quot; width=&quot;630&quot; heigth=&quot;480&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Now consider that the &lt;code class=&quot;highlighter-rouge&quot;&gt;tmp_all&lt;/code&gt; data frame contains records for both &lt;code class=&quot;highlighter-rouge&quot;&gt;train&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;valid&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tmp_all&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rbind&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tmp_train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tmp_valid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;unique&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tmp_all&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Scenario&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Train&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Valid&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;If you call the same function for this new data frame:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;funcGFMplotROC&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;var.target&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;target&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var.prediction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;pred&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var.group&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Scenario&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var.df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;tmp_all&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var.fsize&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The result will be:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/posts-img/2016-05-08-roc-curve-img2.png&quot; width=&quot;630&quot; heigth=&quot;480&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;In this case, the plot shows two curves, one for each group identified by &lt;code class=&quot;highlighter-rouge&quot;&gt;Scenario&lt;/code&gt; column in the data frame. The values of &lt;code class=&quot;highlighter-rouge&quot;&gt;AUC&lt;/code&gt; are shown next to the legend of each group.&lt;/p&gt;
+
+&lt;p&gt;You can use now the resulting plot as part of you modeling validation methodology or even to produce pretty markdown reports to document your work and/or to deliver a report to your clients.&lt;/p&gt;
+
+&lt;p&gt;That’s all folks! ;-)
+&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Predictive Performance Metrics</title>
+   <link href="http://ablazko.github.io/blog/2016/05/01/predictive-performance-metrics.html"/>
+   <updated>2016-05-01T00:00:00-03:00</updated>
+   <id>http://ablazko.github.io/blog/2016/05/01/predictive-performance-metrics</id>
+   <content type="html">&lt;p&gt;In this posting I’ll discuss a litle bit about some of the predictive performance metrics available. And be aware that for now I’ll be focused in the particular context of &lt;strong&gt;predictive modeling&lt;/strong&gt; for &lt;strong&gt;binary target&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;When working with data modeling you must have a set of metrics in mind to help you decide if the model is performing well and which model is the “winner”. Also, you must be aware about avoid overfiting. These performance metrics will guide you by giving you evidences if you’re in the right path or not. If you’re done with the modelling process or if you must continue digging and trying.&lt;/p&gt;
+
+&lt;p&gt;Before we start getting into more technical, I would like also to point that the choice of the metrics (or metrics!) to use sometimes depends of the context of your goals. Each performance metrics “focus” on (and measure) some particular charactheristic of the data. So you’ll find out that your “winner model” could be different ones depending on which metric you want to use.&lt;/p&gt;
+
+&lt;p&gt;The R function I wrote to make my life easier during the work can be found &lt;a href=&quot;https://github.com/ablazko/R-codes/blob/master/funcGFMmetrics.R&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt;, with the code to calculate each metric. Hope it can help you too.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# Goodness of Fit Metrics (for prediction models with target [0;1])
+&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;funcGFMmetrics&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 
+&lt;span class=&quot;k&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;var.target&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var.prediction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var.df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;...&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;One important thing to mention is that for the metrics that requires a &lt;code class=&quot;highlighter-rouge&quot;&gt;predicted&lt;/code&gt; flag for each row (usuall used as &lt;code class=&quot;highlighter-rouge&quot;&gt;score&amp;gt;0.5&lt;/code&gt;), this function set the &lt;code class=&quot;highlighter-rouge&quot;&gt;predicted=1&lt;/code&gt; flag for rows that satisfy &lt;code class=&quot;highlighter-rouge&quot;&gt;score&amp;gt;mean(score)&lt;/code&gt;, otherwise &lt;code class=&quot;highlighter-rouge&quot;&gt;predicted=0&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;I’d rather this way since not all of my projects (or approaches) considers a 50/50 balanced response rates.&lt;/p&gt;
+
+&lt;p&gt;This is an example of a function call with the results saved in &lt;code class=&quot;highlighter-rouge&quot;&gt;metrics&lt;/code&gt; object:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;metrics&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;funcGFMmetrics&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;var.target&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;target&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var.prediction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;prob&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;var.df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;df&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;    
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;A usually set the paramenters input of my function as a &lt;em&gt;text&lt;/em&gt;, so it is easy to automate the call of a function in some procedures. As a result of the above line of code you get a vector listing all of performance metrics:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;metrics&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;AUC&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;KS&lt;/span&gt;      &lt;span class=&quot;n&quot;&gt;GINI&lt;/span&gt;   &lt;span class=&quot;n&quot;&gt;LogLoss&lt;/span&gt;     &lt;span class=&quot;n&quot;&gt;Kappa&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;F1&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;Accuracy&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ErrorRate&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Precision&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;Recall&lt;/span&gt; 
+&lt;span class=&quot;m&quot;&gt;0.80267&lt;/span&gt;   &lt;span class=&quot;m&quot;&gt;0.44472&lt;/span&gt;   &lt;span class=&quot;m&quot;&gt;0.60534&lt;/span&gt;   &lt;span class=&quot;m&quot;&gt;0.73523&lt;/span&gt;   &lt;span class=&quot;m&quot;&gt;0.36063&lt;/span&gt;   &lt;span class=&quot;m&quot;&gt;0.79377&lt;/span&gt;   &lt;span class=&quot;m&quot;&gt;0.71722&lt;/span&gt;   &lt;span class=&quot;m&quot;&gt;0.28278&lt;/span&gt;   &lt;span class=&quot;m&quot;&gt;0.89089&lt;/span&gt;   &lt;span class=&quot;m&quot;&gt;0.71575&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;So &lt;code class=&quot;highlighter-rouge&quot;&gt;metrics&lt;/code&gt; become an object in R session, and if needed you can extract a specific metric just passing its index. To call &lt;code class=&quot;highlighter-rouge&quot;&gt;KS&lt;/code&gt; value, you do:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;metrics&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+     &lt;span class=&quot;n&quot;&gt;KS&lt;/span&gt; 
+&lt;span class=&quot;m&quot;&gt;0.44472&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;I’m supposing you’re familiar with the definition of such metrics, so this is just a little hint of the meaning of these measures:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;AUC        = total area under the ROC Curve&lt;/li&gt;
+  &lt;li&gt;KS         = maximum distance between cumulative distributions frequencies of the target and no-target&lt;/li&gt;
+  &lt;li&gt;GINI       = measure the inequality level among values of the frequency distribution between target and no-target&lt;/li&gt;
+  &lt;li&gt;Logloss    = uncertainty of the probabilities of the model by comparing them to the true labels&lt;/li&gt;
+  &lt;li&gt;Kappa      = agreement level between prediction and true labels&lt;/li&gt;
+  &lt;li&gt;F1         = harmonic mean between Precision and Recall measures&lt;/li&gt;
+  &lt;li&gt;Accuracy   = overall accuracy of the model considering target and no-target predictions&lt;/li&gt;
+  &lt;li&gt;Error Rate = overall error of the model considering target and no-target predictions&lt;/li&gt;
+  &lt;li&gt;Precision  = ‘predicted’ hit rate&lt;/li&gt;
+  &lt;li&gt;Recall     = ‘true’ hit rate&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;That’s all folks! ;-)
+&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>The 'Futsal Mania' app!</title>
+   <link href="http://ablazko.github.io/blog/2016/04/24/futsalmania-app.html"/>
+   <updated>2016-04-24T00:00:00-03:00</updated>
+   <id>http://ablazko.github.io/blog/2016/04/24/futsalmania-app</id>
+   <content type="html">&lt;p&gt;Right after I’ve set up my (this) new blog I started to handle some data regarding futsal sport. It was for fun in the beginning, and my curiosity about the team’s performance along the national competitions was getting higher and higher. About a two weeks ago started the LNF 2016 season here in Brazil. And for some reason I wanted to get this app running on live right away. And so I focus to accomplish that! And I did it! :-)&lt;/p&gt;
+
+&lt;p&gt;[ you can check it out the app here  &lt;a href=&quot;http://ablazko.github.io/futsalmania&quot; target=&quot;_blank&quot;&gt;FUTSAL MANIA&lt;/a&gt; ]&lt;/p&gt;
+
+&lt;p&gt;The hard time was to figure it out the ‘right’ names for the teams, since it is quite usual in this competition to have compound names because their new sponsors. For example, in 2014/2015 seasons the team of Sorocaba was also called as Brasil Kirin. This 2016 season they have a new sponsor and now they are being called as Magnus Futsal. Yes, I know! :/  This is really terrible for gathering data… but still is not impossible do arrange that! And as older the seasons, more problems with their names.&lt;/p&gt;
+
+&lt;p&gt;In general, I tried to keep the most known name of them. For the example above, the oficial name I set for the team of Sorocaba city was ‘Sorocaba’, regardless of their sponsors at that time.&lt;/p&gt;
+
+&lt;p&gt;Unfortunately, I was only able to find data regarding the games since LNF 2010. Before that, I still didn’t find any reliable source. Still diggind the web for that… not even LNF oficial association could help me on that. They indeed have all the data, but still the most part of them are not digital yet, so. They told me they have a project running to change that, but it is going to take time. Let’s wait then.&lt;/p&gt;
+
+&lt;p&gt;But let’s start talking about the interesting part… the data and how R/Shiny could help me turn my ideas in reality! :D&lt;/p&gt;
+
+&lt;p&gt;Basically, the most of the work (so far!) was all about munging the data and cleaning it. I focused to create a &lt;code class=&quot;highlighter-rouge&quot;&gt;score&lt;/code&gt; to measure the perfomance of the teams at each season and then combine them to get an overall (actual) &lt;code class=&quot;highlighter-rouge&quot;&gt;score&lt;/code&gt;. My first goal was to have &lt;strong&gt;the first ranking of the LNF’s teams in Brazil&lt;/strong&gt;, considering all their history and performance results in these competitions.&lt;/p&gt;
+
+&lt;p&gt;Here it is a screen shot of this ranking…&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/posts-img/2016-04-24-futsalmania-app-img1.png&quot; width=&quot;630&quot; heigth=&quot;480&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;My second goal was to analyse the duel between two teams, the most important statistics involving them (the duel) and also their history in the competition. And this is the result…&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/posts-img/2016-04-24-futsalmania-app-img2.png&quot; alt=&quot;duel-screenshot&quot; width=&quot;630&quot; heigth=&quot;480&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;And now, once the app are fully running I can play around with all the data available, share some analysis with my friends and just have fun about it!&lt;/p&gt;
+
+&lt;p&gt;You can play around with this app in &lt;a href=&quot;http://ablazko.github.io/futsalmania&quot; target=&quot;_blank&quot;&gt;FUTSAL MANIA&lt;/a&gt;. I intend to keep it updated regarding the new games from now on. And also want to implement some new features and analysis.&lt;/p&gt;
+
+&lt;p&gt;To write this app I used the following packages in server side:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;library(gridExtra)  # graphics
+library(ggplot2)    # graphics
+library(grid)       # some functions used in ggplot
+library(rdrop2)     # dropbox integration
+library(DT)         # data table presentation in shiny
+library(data.table) # data manipulation
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;And in ui side:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;library(shiny)
+library(shinydashboard)
+library(shinyjs)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;My strategy to keep the data updated (periodically) was by dropbox integration. The &lt;code class=&quot;highlighter-rouge&quot;&gt;rdrop2&lt;/code&gt; library is pretty handy to deal that. The &lt;code class=&quot;highlighter-rouge&quot;&gt;data.table&lt;/code&gt; library made a lot of difference too. Their performance for data manipulation is very higher if compared to R basis. Well, that’s true ins most of the cases! During this work I found an interesting issue with &lt;code class=&quot;highlighter-rouge&quot;&gt;data.table&lt;/code&gt; when you have to use &lt;code class=&quot;highlighter-rouge&quot;&gt;cbind&lt;/code&gt; function. Actually, its performance for this is surprisingly worse the R basis! So if you need to &lt;code class=&quot;highlighter-rouge&quot;&gt;cbind&lt;/code&gt; columns I advice you to turn your data frame to &lt;code class=&quot;highlighter-rouge&quot;&gt;data.frame&lt;/code&gt; format first, then &lt;code class=&quot;highlighter-rouge&quot;&gt;cbind&lt;/code&gt; your column(s), and then back to &lt;code class=&quot;highlighter-rouge&quot;&gt;data.table&lt;/code&gt; format. It’s quite annoying, but is worth it. This is probably an issue that I hope to be handled in next versions of &lt;code class=&quot;highlighter-rouge&quot;&gt;data.table&lt;/code&gt; package.&lt;/p&gt;
+
+&lt;p&gt;That’s all folks! ;-)
+&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
    <title>Welcome to my blog!</title>
    <link href="http://ablazko.github.io/blog/2016/03/31/welcome-to-my-blog.html"/>
    <updated>2016-03-31T00:00:00-03:00</updated>
    <id>http://ablazko.github.io/blog/2016/03/31/welcome-to-my-blog</id>
    <content type="html">&lt;p&gt;After a hard day of work I was finally able to create my blog website. I’m really excited to start writing and sharing about my researches, R codes and strategies to tackle this interesting subject area which is data science and predictive modeling.&lt;/p&gt;
 
-&lt;p&gt;I’m also glad that [&lt;a href=&quot;http://pages.github.com&quot; target=&quot;_blank&quot;&gt;GitHub Pages&lt;/a&gt;] allow us to create such things all for free!&lt;/p&gt;
+&lt;p&gt;I’m also glad that &lt;a href=&quot;http://pages.github.com&quot; target=&quot;_blank&quot;&gt;GitHub Pages&lt;/a&gt; allow us to create such things all for free!&lt;/p&gt;
 
 &lt;p&gt;The contents of my postings will be a balance between theory and application. I will also try to share R codes to accomplish some goals and help us in this journey.&lt;/p&gt;
 

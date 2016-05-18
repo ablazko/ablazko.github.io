@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"><![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"><![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"><![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Andre Blazko - ROC Curve plot and AUC</title>
+  <meta name="author" content="Andre Blazko" />
+  <meta name="description" content="The blog of Andre Blazko" />
+  <link rel="canonical" href="http://ablazko.github.io/blog/2016/05/08/roc-curve.html" />
+  <link rel="shortcut icon" href="/favicon.png">
+  <link rel="alternate" type="application/rss+xml" title="Andre Blazko" href="http://ablazko.github.io/atom.xml" />
+  <link rel="stylesheet" href="/assets/css/all.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
+  
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/googlecode.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/languages/r.min.js"></script>
+
+<script>
+hljs.configure({languages: []})
+hljs.initHighlightingOnLoad();
+</script>
+
+
+</head>
+<body>
+  <div class="container">
+    <div class="four columns sidebar">
+      <nav>
+  <a href="/">
+    <img src="/logo.png" id="logo" alt="Blog logo"/>
+  </a>
+  <h2>I'm <a href="/">Andre Blazko</a></h2>
+  <hr/>
+  <div>
+  <p>I'm a statistician, R addicted, data science enthusiast and passionate about music and futsal!
+  <br><br> This blog is about tackling the challenges of data science analysis and predictive modeling, R programming and R/Shiny apps.
+  </p>
+  <hr/>
+  <div>
+    <div id="social">
+      <div id="stalker">
+  
+  <a title="ablazko on Github" href="https://github.com/ablazko" target="_blank">
+    <i class="fa fa-github-square"></i>
+  </a>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <a title="ablazko on Twitter" href="https://twitter.com/ablazko" target="_blank">
+    <i class="fa fa-twitter-square"></i>
+  </a>
+  
+
+  
+
+  
+
+  
+  <a title="Andre Blazko on LinkedIn" href="https://br.linkedin.com/in/andreblazko" target="_blank">
+    <i class="fa fa-linkedin-square"></i>
+  </a>
+  
+
+  
+
+  <a title="RSS feed" id="rss" href="/atom.xml" target="_blank">
+    <i class="fa fa-rss-square"></i>
+  </a>
+</div>
+
+    </div>
+  </div>
+  <hr/>
+  <div>
+    <p>The blog posts are shared to <a href="https://r-bloggers.com/" target="_blank">R-bloggers</a>.</p>
+  </div>
+  </div>
+</nav>
+
+    </div>
+    <div class="eleven columns content">
+      <p class="meta">
+  May 08, 2016
+  <a href="/">
+    <i class="home fa fa-home"></i>
+  </a>
+</p>
+
+<h1 class="title">ROC Curve plot and AUC</h1>
+
+<div id="post">
+  <p>In the previous post <a href="http://ablazko.github.io/blog/2016/05/01/predictive-performance-metrics.html" target="_blank">Predictive Performance Metrics</a> I wrote about a R function that returns a few performance metrics useful to evaluate a binary classifier. And this can be enough in some situations and for some of these metrics.</p>
+
+<p>In the case of the ROC Curve I like to always observe the shape of its plot just to make sure everything is fine, since different shapes of the curve can result the same AUC value. Other plots that I usually observe are the KS, density and percentile plots. But for now, let’s focus in the ROC Curve.</p>
+
+<p>The R function I wrote to evaluate the ROC Curve can be found <a href="https://github.com/ablazko/R-codes/blob/master/funcGFMplotROC.R" target="_blank">here</a>. It can handle a single curve or multiples curves in the same plot. This make it easy when you need to compare the results among <code class="highlighter-rouge">train</code>, <code class="highlighter-rouge">valid</code> and <code class="highlighter-rouge">test</code> data or even among different models. To do that, just keep in mind that instead of having different columns for each prediction, you must have a unique column for your prediction, and a column to diferentiate these groups (<code class="highlighter-rouge">var.group</code> input).</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c1"># Goodness of Fit Metrics 'ROC plot' (for prediction models with target [0;1])
+</span>
+<span class="n">funcGFMplotROC</span> <span class="o">=</span> 
+<span class="k">function</span> <span class="p">(</span><span class="n">var.target</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">var.prediction</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">var.group</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">var.df</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span> <span class="n">var.fsize</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">...</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>So let’s get practical and see how it works!</p>
+
+<p>This is an example of a function call. In this case, all the records in the <code class="highlighter-rouge">tmp_train</code> data frame is regarding the <code class="highlighter-rouge">train</code> subset.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="o">&gt;</span> <span class="n">unique</span><span class="p">(</span><span class="n">tmp_train</span><span class="o">$</span><span class="n">Scenario</span><span class="p">)</span>
+<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="s2">"Train"</span>
+</code></pre>
+</div>
+
+<p>The <code class="highlighter-rouge">var.fsize</code> parameter is the reference for the text font size used in ggplot2. Default value is set to <code class="highlighter-rouge">3</code>. Also the <code class="highlighter-rouge">var.group</code> parameter is optional and the default value is <code class="highlighter-rouge">null</code>.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">funcGFMplotROC</span> <span class="p">(</span><span class="n">var.target</span><span class="o">=</span><span class="s2">"target"</span><span class="p">,</span> <span class="n">var.prediction</span><span class="o">=</span><span class="s2">"pred"</span><span class="p">,</span> <span class="n">var.group</span><span class="o">=</span><span class="s2">"Scenario"</span><span class="p">,</span> <span class="n">var.df</span><span class="o">=</span><span class="s2">"tmp_train"</span><span class="p">,</span> <span class="n">var.fsize</span><span class="o">=</span><span class="m">3</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>This is the result:</p>
+
+<p><img src="/posts-img/2016-05-08-roc-curve-img1.png" width="630" heigth="480" /></p>
+
+<p>Now consider that the <code class="highlighter-rouge">tmp_all</code> data frame contains records for both <code class="highlighter-rouge">train</code> and <code class="highlighter-rouge">valid</code>.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="o">&gt;</span> <span class="n">tmp_all</span> <span class="o">=</span> <span class="n">rbind</span><span class="p">(</span><span class="n">tmp_train</span><span class="p">,</span> <span class="n">tmp_valid</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="n">unique</span><span class="p">(</span><span class="n">tmp_all</span><span class="o">$</span><span class="n">Scenario</span><span class="p">)</span>
+<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="s2">"Train"</span> <span class="s2">"Valid"</span>
+</code></pre>
+</div>
+
+<p>If you call the same function for this new data frame:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">funcGFMplotROC</span> <span class="p">(</span><span class="n">var.target</span><span class="o">=</span><span class="s2">"target"</span><span class="p">,</span> <span class="n">var.prediction</span><span class="o">=</span><span class="s2">"pred"</span><span class="p">,</span> <span class="n">var.group</span><span class="o">=</span><span class="s2">"Scenario"</span><span class="p">,</span> <span class="n">var.df</span><span class="o">=</span><span class="s2">"tmp_all"</span><span class="p">,</span> <span class="n">var.fsize</span><span class="o">=</span><span class="m">3</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>The result will be:</p>
+
+<p><img src="/posts-img/2016-05-08-roc-curve-img2.png" width="630" heigth="480" /></p>
+
+<p>In this case, the plot shows two curves, one for each group identified by <code class="highlighter-rouge">Scenario</code> column in the data frame. The values of <code class="highlighter-rouge">AUC</code> are shown next to the legend of each group.</p>
+
+<p>You can use now the resulting plot as part of you modeling validation methodology or even to produce pretty markdown reports to document your work and/or to deliver a report to your clients.</p>
+
+<p>That’s all folks! ;-)
+<br /><br /></p>
+
+</div>
+
+<div id="related">
+  <h3>Related Posts</h3>
+  <ul class="posts">
+    
+    <li>
+      <span>17 May 2016 &raquo;</span> <a href="/blog/2016/05/17/ks.html">KS Curve plot</a>
+    </li>
+    
+    <li>
+      <span>01 May 2016 &raquo;</span> <a href="/blog/2016/05/01/predictive-performance-metrics.html">Predictive Performance Metrics</a>
+    </li>
+    
+    <li>
+      <span>24 Apr 2016 &raquo;</span> <a href="/blog/2016/04/24/futsalmania-app.html">The 'Futsal Mania' app!</a>
+    </li>
+    
+  </ul>
+</div>
+
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'ablazko';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$']],
+        processEscapes: true
+      }
+    });
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+      <div class="footer">
+        <div class="disclaimer">
+  
+  <p>
+    
+    All articles are authored and published by Andre Blazko.
+    
+    The contents on this site are licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/deed.en_US">Creative Commons Attribution-NonCommercial 4.0 International License</a>.
+  </p>
+  
+
+  <p>
+    © <a href="mailto:andre.blazko@gmail.com">Andre Blazko</a>, 2016 &mdash; hosted by <a href="http://pages.github.com/">GitHub Pages</a> and built with <a href="http://jekyllrb.com/">Jekyll</a> using <a href="http://jekyllthemes.org/themes/lagom/">Lagom theme</a>.
+  </p>
+</div>
+
+      </div>
+    </div>
+  </div>
+
+<script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-75826037-1']);
+_gaq.push(['_trackPageview']);
+(function() {
+var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+
+ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+</body>
+</html>

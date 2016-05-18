@@ -1,5 +1,29 @@
 [
 
+{"date": "2016-05-17 00:00:00 -0300",
+"categories": ["blog"],
+"tags": ["r","data science"],
+"title": "KS Curve plot",
+"url": "/blog/2016/05/17/ks.html"},
+
+{"date": "2016-05-08 00:00:00 -0300",
+"categories": ["blog"],
+"tags": ["r","data science"],
+"title": "ROC Curve plot and AUC",
+"url": "/blog/2016/05/08/roc-curve.html"},
+
+{"date": "2016-05-01 00:00:00 -0300",
+"categories": ["blog"],
+"tags": ["r","data science"],
+"title": "Predictive Performance Metrics",
+"url": "/blog/2016/05/01/predictive-performance-metrics.html"},
+
+{"date": "2016-04-24 00:00:00 -0300",
+"categories": ["blog"],
+"tags": ["r","shiny","futsal"],
+"title": "The 'Futsal Mania' app!",
+"url": "/blog/2016/04/24/futsalmania-app.html"},
+
 {"date": "2016-03-31 00:00:00 -0300",
 "categories": ["blog"],
 "tags": [],
