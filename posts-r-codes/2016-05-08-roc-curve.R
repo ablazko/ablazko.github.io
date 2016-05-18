@@ -5,15 +5,16 @@
     rootPath   = '/Users/andre_blazko/Documents/_Sleek-Data/projects/kaggle-03-bnp-paribas'
 
     library(data.table)
+    library(dplyr)
 
     # Variables ID & TARGET
     v_var_ids = c("ID")
     v_var_target = c("target")
 
     # Load dataframes
-    ds_features_metadata = readRDS(file=paste(pathWork, "ds_features_metadata.RDS", sep="/"))
-    ds_train = readRDS(file=paste(pathWork, "ds_train.RDS", sep="/"))
-    ds_train_d = readRDS(file=paste(pathWork, "ds_train_d.RDS", sep="/"))
+    ds_features_metadata = readRDS(file=paste(rootPath, "data-work/ds_features_metadata.RDS", sep="/"))
+    ds_train = readRDS(file=paste(rootPath, "data-work/ds_train.RDS", sep="/"))
+    ds_train_d = readRDS(file=paste(rootPath, "data-work/ds_train_d.RDS", sep="/"))
 
 # SCENARIO 02 :: 'LOGISTIC' ----
     
